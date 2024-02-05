@@ -33,7 +33,7 @@ router.post('/addLogin', async (req, res) => {
             iDate: req.body.iDate,
             fDate: req.body.fDate
         }
-        const result = await client.db("gembakaiUser").collection("user").
+        const result = await client.db(process.env.MONGODATABASE).collection(process.env.COLLECTION).
             insertOne(login);
         console.log(result.insertedId)
 
@@ -98,7 +98,7 @@ router.post('/updateLogin', async (req, res) => {
             iDate: req.body.iDate,
             fDate: req.body.fDate
         }
-        const result = await client.db("gembakaiUser").collection("user").
+        const result = await client.db(process.env.MONGODATABASE).collection(process.env.COLLECTION).
             updateOne({ correo: req.body.correo }, { $set: login });
         const result2 = await viewLoginMongo(req.body.correo)
      //   console.log(result.insertedId)
@@ -160,7 +160,7 @@ async function viewAllLoginMongo({
 
     try {
         await client.connect();
-        const cursor = await client.db("gembakaiUser").collection("user").
+        const cursor = await client.db(process.env.MONGODATABASE).collection(process.env.COLLECTION).
             find({ estado: { $gte: estado } });
 
         const result = await cursor.toArray();
