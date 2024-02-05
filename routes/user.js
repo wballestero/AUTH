@@ -4,7 +4,7 @@ const router = express.Router()
 const mongo = require('mongodb')
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const env = require('dotenv/config')
-const client = new MongoClient(process.env.db, {
+const client = new MongoClient("mongodb+srv://willmejia1211:GcuntwBk1urZiT7P@cluster0.iodaqyu.mongodb.net/gembakaiUser?retryWrites=true&w=majority", {
     serverApi: {
         version: ServerApiVersion.v1,
         strict: true,
@@ -33,7 +33,7 @@ router.post('/addLogin', async (req, res) => {
             iDate: req.body.iDate,
             fDate: req.body.fDate
         }
-        const result = await client.db(process.env.MONGODATABASE).collection(process.env.COLLECTION).
+        const result = await client.db("gembakaiUser").collection("user").
             insertOne(login);
         console.log(result.insertedId)
 
@@ -41,7 +41,7 @@ router.post('/addLogin', async (req, res) => {
 
 
     } catch (err) {
-        console.log(err)
+      //  console.log(err)
         res.status(202).json({
             "ERROR": err.message
         })
@@ -65,7 +65,7 @@ router.post('/authLogin', async (req, res) => {
         }
 
     } catch (err) {
-        console.log(err)
+       // console.log(err)
         res.status(202).json({
             "ERROR": err.message
         })
@@ -82,7 +82,7 @@ router.get('/login', async (req, res) => {
             res.status(200).json("false")
         }
     } catch (err) {
-        console.log(err)
+      //  console.log(err)
         res.status(202).json({
             "ERROR": err.message
         })
@@ -98,13 +98,13 @@ router.post('/updateLogin', async (req, res) => {
             iDate: req.body.iDate,
             fDate: req.body.fDate
         }
-        const result = await client.db(process.env.MONGODATABASE).collection(process.env.COLLECTION).
+        const result = await client.db("gembakaiUser").collection("user").
             updateOne({ correo: req.body.correo }, { $set: login });
         const result2 = await viewLoginMongo(req.body.correo)
-        console.log(result.insertedId)
+     //   console.log(result.insertedId)
         res.status(200).json(result2)
     } catch (err) {
-        console.log(err)
+      //  console.log(err)
         res.status(202).json({
             "ERROR": err.message
         })
@@ -122,10 +122,10 @@ router.post('/viewLogin', async (req, res) => {
         const result = await viewLoginMongo(req.body.correo)
         res.status(200).json(result)
     } catch (err) {
-        console.log(err)
+      //  console.log(err)
         res.status(202).json({
             "ERROR": err.message
-        })
+        });
         handleError(error);
     }
 });
@@ -138,7 +138,7 @@ async function viewLoginMongo(login) {
         const formatoFechaHora = fechaHora.toLocaleString();
 
         await client.connect();
-        const result = await client.db(process.env.MONGODATABASE).collection(process.env.COLLECTION).
+        const result = await client.db("gembakaiUser").collection("user").
             findOne({ correo: login });
         console.log("Evento login ", login, " hora: ", formatoFechaHora)
         return result;
@@ -160,7 +160,7 @@ async function viewAllLoginMongo({
 
     try {
         await client.connect();
-        const cursor = await client.db(process.env.MONGODATABASE).collection(process.env.COLLECTION).
+        const cursor = await client.db("gembakaiUser").collection("user").
             find({ estado: { $gte: estado } });
 
         const result = await cursor.toArray();
@@ -183,7 +183,7 @@ router.post('/viewAllLogin', async (req, res) => {
         const result = await viewAllLoginMongo({ estado: req.body.estado })
         res.status(200).json(result)
     } catch (err) {
-        console.log(err)
+        //console.log(err)
         res.status(202).json({
             "ERROR": err.message
         })
