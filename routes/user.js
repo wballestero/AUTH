@@ -4,7 +4,7 @@ const router = express.Router()
 const mongo = require('mongodb')
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const env = require('dotenv/config')
-const client = new MongoClient("mongodb+srv://willmejia1211:GcuntwBk1urZiT7P@cluster0.iodaqyu.mongodb.net/gembakaiUser?retryWrites=true&w=majority", {
+const client = new MongoClient(process.env.DB, {
     serverApi: {
         version: ServerApiVersion.v1,
         strict: true,
@@ -138,7 +138,7 @@ async function viewLoginMongo(login) {
         const formatoFechaHora = fechaHora.toLocaleString();
 
         await client.connect();
-        const result = await client.db("gembakaiUser").collection("user").
+        const result = await client.db(process.env.MONGODATABASE).collection(process.env.COLLECTION).
             findOne({ correo: login });
         console.log("Evento login ", login, " hora: ", formatoFechaHora)
         return result;
