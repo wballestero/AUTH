@@ -1,0 +1,21 @@
+{
+  "name": "auth",
+  "version": "1.0.0",
+  "description": "Plugin Gembakai",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "keywords": [
+    "Gembakai"
+  ],
+  "author": "Wilberth Ballestero Mejia",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongodb": "5.9.0",
+    "mongoose": "7.6.3",
+    "nodemon": "^3.0.2"
+  }
+}
