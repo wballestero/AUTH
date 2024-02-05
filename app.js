@@ -21,7 +21,7 @@ const port =  3000
 //=======================init server==============
 app.use(express.json())
 
-app.listen(port, () => {
+app.listen(process.env.PORT || 3000, () => {
     console.log('Server is  running!!!');
 })
 //=======================init mongodb==============
