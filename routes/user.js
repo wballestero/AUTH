@@ -192,4 +192,30 @@ router.post('/viewAllLogin', async (req, res) => {
 
 });
 
+router.post('/deleteLogin', async (req, res) => {
+    try {
+        await client.connect();
+        const login = {
+            correo: req.body.correo
+        }
+        const result = await client.db(process.env.MONGODATABASE).collection(process.env.COLLECTION).
+            deleteOne({ correo: req.body.correo });
+       // const result2 = await viewLoginMongo(req.body.correo)
+     //   console.log(result.insertedId)
+        res.status(200).json(result)
+    } catch (err) {
+      //  console.log(err)
+        res.status(202).json({
+            "ERROR": err.message
+        })
+        handleError(error);
+    }
+
+    finally {
+        // Ensures that the client will close when you finish/error
+        await client.close();
+    }
+});
+
+
 module.exports = router
