@@ -17,7 +17,7 @@ const client = new MongoClient(process.env.db, {
         deprecationErrors: true,
     }
 });
-const port = process.env.PORT || 3000
+const port =  3000
 //=======================init server==============
 app.use(express.json())
 
